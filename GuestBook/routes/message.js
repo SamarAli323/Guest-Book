@@ -1,6 +1,36 @@
 const express = require('express')
 const messageModel = require('../models/message')
 const router = express.Router();
+const key = "Hey There How Are You?"
+const jwt = require('jsonwebtoken')
+
+
+router.use(async (req, res, next) => {
+    const token = req.cookies.token
+    console.log(req.cookies.token)
+    if (!token) {
+        return res.status(401).json("you're not logged in please login first")
+    }
+    var payload
+    try {
+        payload = jwt.verify(token, key)
+    } catch (e) {
+        if (e instanceof jwt.JsonWebTokenError) {
+            console.log("fvvfdvv")
+            return res.status(401).end()
+        }
+        console.log("2rgregregrre")
+        return res.status(400).end()
+    }
+    /*if (payload.exp <= Date.now()) {
+        console.log(payload.exp)
+        console.log("3fffrrefef")
+        return res.status(400).end()
+    }*/
+    //console.log("done")
+    next()
+})
+
 
 router.get('/', async (req, res) => {
     try {
@@ -13,9 +43,9 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const message = new messageModel(req.body)
-        /*userId: req.body.userId,
-        message: req.body.message
-    })*/
+    /*userId: req.body.userId,
+    message: req.body.message
+})*/
     try {
         const postResult = await message.save();
         return res.json(postResult);
@@ -44,7 +74,7 @@ router.patch('/:messageId/reply', async (req, res) => {
             },
         },
             { new: true });
-       return res.json(updateResult)
+        return res.json(updateResult)
     } catch (err) {
         console.log(err);
     }

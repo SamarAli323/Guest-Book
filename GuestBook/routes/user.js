@@ -1,9 +1,9 @@
 const express = require('express')
 const bycrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const userModel = require('../models/user')
 const registerValidation = require('../validation/register')
 const loginValidation = require('../validation/login')
+const generateToken = require('../config/generateToken')
 const router = express.Router();
 
 
@@ -46,20 +46,11 @@ router.post('/login', async (req, res) => {
     const matchedUser = await bycrypt.compare(req.body.password, user.password)
     if (matchedUser) {
         const payload = {
-            id: user.id,
+            id: user._id,
             firstName: user.firstName,
             lastName: user.lastName
-        };
-        jwt.sign(payload, "Hey There How Are You?",
-            {
-                expiresIn: 300
-            },
-            (err, token) => {
-                console.log(err);
-                console.log(token)
-                res.cookie('token', token, { maxAge: 300 })
-                res.json("done")
-            })
+        }
+        await generateToken(res,payload)
     } else {
         res.status(400).json("Invalid Email or Password")
     }
