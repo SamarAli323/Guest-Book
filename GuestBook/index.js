@@ -1,15 +1,19 @@
 const express = require('express');
-const port = process.env.PORT || 8001
+const port = process.env.PORT || 8000
 const mongoose = require('mongoose');
 const mongoosePort = process.env.MONGOPORT || 'mongodb://localhost:27017/GuestBook'
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const user = require('./routes/user')
 const message = require('./routes/message')
+const cors = require('cors');
 const app = express();
 
-
-
+var corsOptions = {
+    origin: "http://localhost:3000"
+};
+  
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser())

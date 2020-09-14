@@ -6,20 +6,17 @@ const jwt = require('jsonwebtoken')
 
 
 router.use(async (req, res, next) => {
-    const token = req.cookies.token
-    console.log(req.cookies.token)
+    const token = req.headers.authorization.split(' ')[1]
     if (!token) {
-        return res.status(401).json("you're not logged in please login first")
+        return res.json("you're not logged in please login first")
     }
     var payload
     try {
         payload = jwt.verify(token, key)
     } catch (e) {
         if (e instanceof jwt.JsonWebTokenError) {
-            console.log("fvvfdvv")
             return res.status(401).end()
         }
-        console.log("2rgregregrre")
         return res.status(400).end()
     }
     /*if (payload.exp <= Date.now()) {

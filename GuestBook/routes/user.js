@@ -3,18 +3,19 @@ const bycrypt = require('bcryptjs')
 const userModel = require('../models/user')
 const registerValidation = require('../validation/register')
 const loginValidation = require('../validation/login')
-const generateToken = require('../config/generateToken')
+const jwt = require('jsonwebtoken')
 const router = express.Router();
 
 
 router.post('/register', async (req, res) => {
+    console.log(req.body)
     const { errors, isValid } = registerValidation(req.body);
     if (!isValid) {
-        res.status(400).json(errors);
+        return res.json({error : errors});
     }
     const user = await userModel.findOne({ email: req.body.email })
     if (user) {
-        return res.status(400).json("Email already exists");
+        return res.json({error : {email : "Email already exists"}});
     }
     const hashedpassword = await bycrypt.hash(req.body.password, 5);
     const registerUser = new userModel({
@@ -36,12 +37,12 @@ router.post('/login', async (req, res) => {
 
     const { errors, isValid } = loginValidation(req.body);
     if (!isValid) {
-        res.status(400).json(errors)
+        return res.json({error : errors})
     }
 
     const user = await userModel.findOne({ email: req.body.email })
     if (!user) {
-        res.status(400).json("Invalid Email or password")
+        return res.json({error:{email:"Invalid Email or password"}})
     }
     const matchedUser = await bycrypt.compare(req.body.password, user.password)
     if (matchedUser) {
@@ -50,9 +51,15 @@ router.post('/login', async (req, res) => {
             firstName: user.firstName,
             lastName: user.lastName
         }
-        await generateToken(res,payload)
+        jwt.sign(payload, "Hey There How Are You?",
+        {
+            expiresIn: 259200
+        },
+        (err, token) => {
+            return res.json({user,"token":token})
+        })
     } else {
-        res.status(400).json("Invalid Email or Password")
+        res.json({error:{email:"Invalid Email or password"}})
     }
 })
 
