@@ -19,12 +19,6 @@ router.use(async (req, res, next) => {
         }
         return res.status(400).end()
     }
-    /*if (payload.exp <= Date.now()) {
-        console.log(payload.exp)
-        console.log("3fffrrefef")
-        return res.status(400).end()
-    }*/
-    //console.log("done")
     next()
 })
 
@@ -37,6 +31,16 @@ router.get('/', async (req, res) => {
         res.json(err);
     }
 });
+
+
+router.get('/:messageId',async (req,res)=>{
+    try {
+        const getResult = await messageModel.findById(req.params.messageId).populate('user');
+        return res.json(getResult);
+    } catch (err) {
+        res.json(err);
+    }
+})
 
 router.post('/', async (req, res) => {
     const message = new messageModel(req.body)

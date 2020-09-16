@@ -4,18 +4,21 @@ import { Link } from "react-router-dom";
 class Navbar extends Component {
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <Link className="navbar-brand" to="/">Guest Book</Link>
-                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">Guest Book</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div className="navbar-nav">
-                        <Link className="nav-item nav-link " to="/">Home </Link>
-                        <Link className="nav-item nav-link" to="/login">login</Link>
-                        <Link className="nav-item nav-link" to="/signup">signup</Link>
-
-                    </div>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="navbar-text">
+                        <Link to="/">Home</Link>
+                        </li>
+                    </ul>
+                    <span class="navbar-text">
+                        <Link to="/login">login</Link>
+                        <Link to="/signup" style={{marginLeft:"10px"}}>signup</Link>
+                    </span>
                 </div>
             </nav>
         );

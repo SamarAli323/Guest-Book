@@ -12,7 +12,7 @@ function GuestBook() {
     const [allMssages, setAllMessages] = useState([])
     useEffect(() => {
         getAllMessages();
-    }, []);
+    });
 
     const delteMessage = async (messageId) => {
         console.log(token)
@@ -23,7 +23,7 @@ function GuestBook() {
         console.log(clientId)
         const done = await axios.post('http://localhost:8000/message', { 'userId': clientId, 'message': message }, { headers: { 'authorization': `Bearer ${token}` } })
         console.log(done)
-    } 
+    }
 
     const getAllMessages = async () => {
         const tokens = localStorage.getItem('user');
@@ -43,10 +43,10 @@ function GuestBook() {
                     <div class="card-body">
                         <h5 class="card-title">{clientFirstName}{clientLastName}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{item.date.split('T')[0]}</h6>
-
-                        {item.userId === clientId? <Link class="card-text" to={`/EditMessage/${item._id}/${item.message}`}>{item.message}</Link>:<p class="card-text">{item.message}</p>}
+                        {item.userId === clientId ? <Link class="card-text" to={`/editMessage/${item._id}/${item.message}`}>{item.message}</Link> : <p class="card-text">{item.message}</p>}
                         <form>
-                            <a onClick={() => { if (item.userId === clientId) { delteMessage(item._id); getAllMessages() } }} class="card-link">delete</a>
+                            <a onClick={()=> {if (item.userId === clientId) {return <EditMessage id={item.id} message={item.message}></EditMessage>}}} class="card-link">edit</a>
+                            <a onClick={() => { if (item.userId === clientId) { delteMessage(item._id);} }} class="card-link">delete</a>
                             <a onClick={() => { }} class="card-link">reply</a>
                         </form>
                     </div>
@@ -59,7 +59,7 @@ function GuestBook() {
         <div>
             <div className="container">
                 <div className="card gedf-card" style={{ justifyContent: "space-between", margin: '40px', marginLeft: 'auto', marginRight: 'auto', width: '400px', height: '500' }}>
-                    <form onSubmit={(e) => { e.preventDefault(); addMessage(); setMessage(''); getAllMessages() }}>
+                    <form onSubmit={(e) => { e.preventDefault(); addMessage(); }}>
                         <div className="card-body">
                             <div className="tab-content" id="myTabContent">
                                 <div className="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">

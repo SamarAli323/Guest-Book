@@ -7,7 +7,7 @@ import Login from './components/login/logIn'
 import Landing from './components/home/landing'
 import GuestBook from './components/guestBook/Guestbook'
 import Footer from './components/footer/footer'
-import editMessage from './components/guestBook/editMessage'
+import EditMessage from './components/guestBook/editMessage'
 function App() {
   return (
     <div className="App">
@@ -17,7 +17,7 @@ function App() {
       <Route exact path="/signup" component={SignUp} />
       <Route exact path="/login" component={Login} />
       <Route exact path="/Guestbook" component={GuestBook} />
-      <Route exact path="/editMessage" component={editMessage} />
+      <Route  path="/editMessage" component={EditMessage} />
       <Footer />
     </Router>
   </div>

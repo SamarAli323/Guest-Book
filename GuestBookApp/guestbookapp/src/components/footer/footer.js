@@ -6,12 +6,12 @@ export default class Footer extends Component {
     render() {
         return (
 
-            <footer className="site-footer">
+            <footer class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div className="container">
                     <div className="row">
                         <div className="col-sm-12 col-md-6">
-                            <h6>About</h6>
-                            <p className="text-justify" style={{color:"w"}}><i>Welcome to our GuestBook</i> </p>
+                            <h6 style={{color:"white"}}>About</h6>
+                            <p className="text-justify" style={{color:"white"}}><i>Welcome to our GuestBook</i> </p>
                         </div>
                     </div>
                 </div>
