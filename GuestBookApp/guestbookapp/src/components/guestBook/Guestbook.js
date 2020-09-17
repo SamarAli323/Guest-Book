@@ -36,7 +36,6 @@ function GuestBook() {
         setClientLastName(user.lastname)
         const allMssages = await axios.get('http://localhost:8000/message', { headers: { 'authorization': `Bearer ${token1}` } })
         setAllMessages(allMssages.data)
-        setReply(<Reply />)
         console.log(allMssages.data)
     }
     const Guestbook = allMssages.map(item => {
@@ -47,11 +46,9 @@ function GuestBook() {
                         <h5 class="card-title">{clientFirstName}{clientLastName}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{item.date.split('T')[0]}</h6>
                         {item.userId === clientId ? <Link class="card-text" to={`/editMessage/${item._id}/${item.message}`}>{item.message}</Link> : <p class="card-text">{item.message}</p>}
-                        {item.reply? setMessageReply(item.reply):""}
-                        {<Reply reply={mesageReply}></Reply>}
                         <form>
                             <a onClick={() => { if (item.userId === clientId) { delteMessage(item._id);} }} class="card-link">delete</a>
-                            <a onClick={() => { }} class="card-link">reply</a>
+                            <Link class="card-link" to={`/reply/${item._id}`}> reply </Link>
                         </form>
                     </div>
                 </div>
