@@ -8,6 +8,7 @@ import Landing from './components/home/landing'
 import GuestBook from './components/guestBook/Guestbook'
 import Footer from './components/footer/footer'
 import EditMessage from './components/guestBook/editMessage'
+import Reply from './components/guestBook/reply'
 function App() {
   return (
     <div className="App">
@@ -18,6 +19,7 @@ function App() {
       <Route exact path="/login" component={Login} />
       <Route exact path="/Guestbook" component={GuestBook} />
       <Route  path="/editMessage" component={EditMessage} />
+      <Route path="/reply" component={Reply} />
       <Footer />
     </Router>
   </div>

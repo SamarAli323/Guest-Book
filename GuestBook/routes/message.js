@@ -44,9 +44,6 @@ router.get('/:messageId',async (req,res)=>{
 
 router.post('/', async (req, res) => {
     const message = new messageModel(req.body)
-    /*userId: req.body.userId,
-    message: req.body.message
-})*/
     try {
         const postResult = await message.save();
         return res.json(postResult);
@@ -57,7 +54,7 @@ router.post('/', async (req, res) => {
 
 router.patch('/:messageId', async (req, res) => {
     try {
-        const patchResult = await messageModel.findByIdAndUpdate(req.params.messageId, { userId: req.body.userId, message: req.body.message }, { new: true });
+        const patchResult = await messageModel.findByIdAndUpdate(req.params.messageId, { message: req.body.message }, { new: true });
         return res.json(patchResult);
     } catch (err) {
         res.json(err);

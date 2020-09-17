@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import EditMessage from './editMessage'
+import Reply from './reply'
 import { Link } from 'react-router-dom';
 function GuestBook() {
     const [message, setMessage] = useState('');
     const [reply, setReply] = useState('');
+    const [mesageReply, setMessageReply] = useState([]);
     const [clientFirstName, setClientFirstName] = useState('');
     const [clientLastName, setClientLastName] = useState('');
     const [clientId, setClientId] = useState('')
@@ -35,6 +36,8 @@ function GuestBook() {
         setClientLastName(user.lastname)
         const allMssages = await axios.get('http://localhost:8000/message', { headers: { 'authorization': `Bearer ${token1}` } })
         setAllMessages(allMssages.data)
+        setReply(<Reply />)
+        console.log(allMssages.data)
     }
     const Guestbook = allMssages.map(item => {
         return (
@@ -44,8 +47,9 @@ function GuestBook() {
                         <h5 class="card-title">{clientFirstName}{clientLastName}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{item.date.split('T')[0]}</h6>
                         {item.userId === clientId ? <Link class="card-text" to={`/editMessage/${item._id}/${item.message}`}>{item.message}</Link> : <p class="card-text">{item.message}</p>}
+                        {item.reply? setMessageReply(item.reply):""}
+                        {<Reply reply={mesageReply}></Reply>}
                         <form>
-                            <a onClick={()=> {if (item.userId === clientId) {return <EditMessage id={item.id} message={item.message}></EditMessage>}}} class="card-link">edit</a>
                             <a onClick={() => { if (item.userId === clientId) { delteMessage(item._id);} }} class="card-link">delete</a>
                             <a onClick={() => { }} class="card-link">reply</a>
                         </form>
